@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../static/deco.css">
+    <link rel="stylesheet" href="../static/face.css">
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script defer src="main.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
+   
+   
+   <script type="text/javascript">
+
+       // 음악 재생 코드 변경!
+       function test(e) {
+
+           var last_char = e.charAt(e.length-1);
+           console.log(last_char);
+
+           var audio1 = new Audio("./musicSample/music ("+ last_char +").mp3");
+           audio1.loop = false;
+           audio1.volume = 0.5;
+           audio1.play();
+
+           $('#play_stop').click(function(){
+               audio1.pause();
+               audio1.currentTime = 0;
+           });
+       }
+
+        $(document).ready(function() {
+            // 1. 감정별 인기 음악
+            $(document).ready(function(){
+                    //플레이어의 디폴트값은 플레이리스트 첫번째 요소 가져옴
+
+                    $.ajax({
+                        url : "http://localhost:8080/recommend",
+                        data : 'get',
+                        contentType:"application/json;charset=UTF-8",
+                        dataType : "json",
+                        success : function(data) {
+                            for (step = 1; step < 11; step++) {
+                                // console.log("url('" + data[step-1].img_url + "')"); //center no-repeat
+                                console.log(data[step-1].img_url)
+                                console.log(step);
+                                document.getElementById('music'+step).innerText = data[step-1].title+ " " + data[step-1].singer;
+
+                                document.getElementById('cover'+step).style.backgroundImage = "url('" + data[step-1].img_url + "') ";
+                                document.getElementById('cover'+step).style.backgroundSize = "cover";
+                            }
+                            document.getElementById('playtitle').innerText = document.getElementById('music1').innerText;
+                            // console.log("loading success");
+                        },
+                        error : function() {
+                            //alert('음악 재생 에러');
+                        }
+                });
+            });
+
+            $(document).ready(function(){
+                $('.musiclist').click(function(){
+                    // alert(document.getElementById(event.srcElement.id).innerHTML);
+                    //alert(document.getElementByClassName(event.srcElement.className).innerText);
+                   $.ajax({
+                      url : "http://localhost:8080/play",
+                       data : 'get',
+                       contentType:"application/json;charset=UTF-8",
+                       dataType : "json",
+                       success : function(data) {
+                           // var data = JSON.parse(data);
+                           // console.log("loading success");
+                           // console.log(data);
+                       },
+                       error : function() {
+                           //alert('음악 재생 에러');
+                       }
+                   });
+                   //alert("title"+document.getElementById(event.srcElement.id).id);
+                   //alert(getElementByClassName("title"+document.getElementById(event.srcElement.id).id).id);
+                   //alert(getElementByClassName("title"+str(event.srcElement.id)).innerHTML);
+                   document.getElementById('playtitle').innerHTML = document.getElementById(event.srcElement.id).innerText;
+                   document.getElementById('playcover').style.backgroundImage = document.getElementById(event.srcElement.id).style.backgroundImage;
+               });
+           });
+
+            //음악 재생 코드-->
+            $(document).ready(function(){
+                $('.playlist').click(function(){
+
+                    // var audio1 = new Audio("sample.mp3");
+                    // audio1.loop = false;
+                    // audio1.volume = 0.5;
+                    // audio1.play();
+                    //
+                    // $('#play_stop').click(function(){
+                    //     audio1.pause();
+                    //     audio1.currentTime = 0;
+                    // });
+                    document.getElementById('playtitle').innerHTML = document.getElementById(event.srcElement.id).innerHTML;
+                    document.getElementById('playsinger').innerHTML = singer_arr[document.getElementById(event.srcElement.id).innerHTML];
+                    document.getElementById('play_cover').style.backgroundImage = document.getElementById(event.srcElement.id).style.backgroundImage;
+                });
+            });
+
+        });
+    </script>
+
+</head>
+<div id="sidebar_face">
+    <div class="musiclist" > <div class="cover" onclick="test(this.id)" id="cover1"></div> <div id="music1">노래명1 가수명1</div> <div class="like"></div></div>
+    <div class="musiclist" > <div class="cover" onclick="test(this.id)" id="cover2"></div> <div id="music2">노래명1 가수명1</div> <div class="like"></div></div>
+    <div class="musiclist" > <div class="cover" onclick="test(this.id)" id="cover3"></div> <div id="music3">노래명1 가수명1</div> <div class="like"></div></div>
+    <div class="musiclist" > <div class="cover" onclick="test(this.id)" id="cover4"></div> <div id="music4">노래명1 가수명1</div> <div class="like"></div></div>
+    <div class="musiclist" > <div class="cover" onclick="test(this.id)" id="cover5"></div> <div id="music5">노래명1 가수명1</div> <div class="like"></div></div>
+    <div class="musiclist" > <div class="cover" onclick="test(this.id)" id="cover6"></div> <div id="music6">노래명1 가수명1</div> <div class="like"></div></div>
+    <div class="musiclist" > <div class="cover" onclick="test(this.id)" id="cover7"></div> <div id="music7">노래명1 가수명1</div> <div class="like"></div></div>
+    <div class="musiclist" > <div class="cover" onclick="test(this.id)" id="cover8"></div> <div id="music8">노래명1 가수명1</div> <div class="like"></div></div>
+    <div class="musiclist" > <div class="cover" onclick="test(this.id)" id="cover9"></div> <div id="music9">노래명1 가수명1</div> <div class="like"></div></div>
+    <div class="musiclist" > <div class="cover" onclick="test(this.id)" id="cover10"></div> <div id="music10">노래명1 가수명1</div> <div class="like"></div></div>
+
+    <div id="sidebar">
+        <div class="musicnow">
+            <div class="player"><div class="cover" id="playcover"></div> <h1 id="playtitle">default</h1> <div class="like"></div><div>이전</div><button id="play_stop" >멈춤</button><div>다음</div></div>
+        </div>
+    </div>
+</div>
+<body class="facebody">
+    <header id="header">
+        <nav id="nav">
+            <div class="top">               
+                <a class="active" onclick="location.href='index.html'" style="cursor: pointer;"> 
+                    MurangE
+                </a>
+                <a onclick="location.href='profile.html'"style="display:inline-flex;" ><div class="icon"></div>profile</a>
+            </div>
+        </nav>
+    </header>       
+    <h1 style="text-align: center; margin-top:50px;">뮤랑이가 표정을 읽고있어요...</h1>
+    <div class="result">표정 분석 결과입니다.<hr>기쁨   15%<br>슬픔 5%</div>
+        <video id="webcam" autoplay playsinline></video>
+        <canvas id="canvas" class="d-none"></canvas>
+        <script>
+            const webcamElement = document.getElementById('webcam');
+            const canvasElement = document.getElementById('canvas');
+            const webcam = new Webcam(webcamElement, 'user');
+        
+            webcam.start()
+              .then(result => {
+                console.log("webcam started");
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          </script>
+    <div><h1 style="text-align: center; display:block;">오늘의 기분은 편안해 보이네요. 어울리는 음악을 추천해드릴게요!</h1></div>
+    <div class="again" onclick="location.href='face.html'"><h4>다시 추천받기</h4></div>
+</body>
+</html>

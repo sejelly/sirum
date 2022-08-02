@@ -1,0 +1,14 @@
+.musicinform {
+  width: 100%;
+  height: 80px;
+  max-width: 400px;
+  display: inline;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: rgb(255, 255, 255);
+  align-items: center;
+  color: white;
+  background-color: rgb(43, 43, 43);
+  text-align: justify;
+  margin-left: 50px;
+}

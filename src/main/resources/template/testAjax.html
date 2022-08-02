@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+<h1>Hello!</h1>
+<button type="button" >click me</button>
+<button type="button" id="button2">click me22</button>
+<input type="button" id="submit" value="입력">
+</body>
+
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript">
+    //$(document).ready(function() {
+        $("button").click(function() {
+            $.ajax({
+                url : "http://localhost:8080/testSearchAll",
+                data : 'get',
+                contentType:"application/json;charset=UTF-8",
+                dataType : "json",
+                success : function(data) {
+                    console.log("all comment");
+                    console.log(data);
+
+                },
+                error : function() {
+                    alert('why not');
+                    console.log("??");
+                }
+            });
+        });
+
+    $("#button2").click(function() {
+        $.ajax({
+            url : "http://localhost:8080/testSearchOne",
+            data : 'get',
+            contentType:"application/json;charset=UTF-8",
+            dataType : "json",
+            success : function(data) {
+                console.log("one comment");
+                console.log(data);
+
+            },
+            error : function() {
+                alert('why not');
+                console.log("??");
+            }
+        });
+    });
+    // });
+
+    $(document).ready(function(){
+        $('#submit').click(function(){   //submit 버튼을 클릭하였을 때
+            let inputData = {"contents": "new sample_contents"};
+            $.ajax({
+                type:'post',   //post 방식으로 전송
+                contentType:"application/json;charset=UTF-8",
+                url:'http://localhost:8080/testCreate',
+                data : JSON.stringify(inputData),
+                dataType:'json',
+                success : function(data){
+                    console.log(data)
+                }
+            });
+        });
+    });
+
+
+</script>
+</html>

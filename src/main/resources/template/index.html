@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="../static/deco.css">
+    <link rel="stylesheet" href="../static/banner.css">
+    <script defer src="main.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="483993169934-7u13102b2s7g4mjemkp6htotpeqdkmes.apps.googleusercontent.com">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&family=Open+Sans:wght@500&display=swap" rel="stylesheet">
+</head>
+
+<body>
+<!--주석-->
+<article class="container">
+    <header id="header">
+        <nav id="nav">
+            <div class="top">
+                <a class="active" href="#">
+                    MurangE
+                </a>
+                <a id="login" onclick="location.href='index.html'"><div class="g-signin2" data-onsuccess="onSignIn"></div></a>
+
+            </div>
+        </nav>
+    </header>
+
+
+    <main class="main">
+
+        <!--데이터 주고받는 코드-->
+
+
+        <!--연습한 코드-->
+        <script type="text/javascript">
+
+            // 음악 재생 코드 변경!
+            function test(e) {
+                console.log(e);
+                var first_char = e.charAt(2);
+                var last_char = e.charAt(e.length-1);
+                var number = Number((first_char-1)*15) + Number(last_char);
+                console.log(number);
+                var audio1 = new Audio("./musicSample/music ("+ number +").mp3");
+                audio1.loop = false;
+                audio1.volume = 0.5;
+                audio1.play();
+                $('#play_stop').click(function(){
+                    audio1.pause();
+                    audio1.currentTime = 0;
+                });
+            }
+
+            var singer_arr = []; 
+            var image_arr = [];
+
+
+                //로그인 후에 계정 정보 백으로 전송
+                $(document).ready(function(){
+                  $('#submit').click(function(){   //submit 버튼을 클릭하였을 때
+                 let inputData = {"contents": "new sample_contents"};
+                   $.ajax({
+                     type:'post',   //post 방식으로 전송
+                     contentType:"application/json;charset=UTF-8",
+                     url:'/users',
+                     data : JSON.stringify(inputData),
+                     dataType:'json',
+                      success : function(data){
+                         alert('계정 정보 전송 성공');
+                    }
+                    });
+                    });
+                });
+
+                var userdata;
+                //유저 id로 계정 정보 받아오기 (로그인 해서 post로 데이터 보낸 후에 실행하기)
+                $.ajax({
+                    url : "/users/{user-id}",
+                    data : 'get',
+                    contentType:"application/json;charset=UTF-8",
+                    dataType : "json",
+                    success : function(data) {
+                        console.log("loading success");
+                        userdata = data;
+                    },
+                    error : function() {
+                        //alert('유저 정보 로딩 에러');
+                    }
+                });
+
+
+        //처음 페이지 로딩시 받아올 데이터
+        $(document).ready(function() {
+            // 1. 감정별 인기 음악
+            $(document).ready(function(){
+                    $.ajax({
+                        url : "http://localhost:8080/recommend",
+                        data : 'get',
+                        contentType:"application/json;charset=UTF-8",
+                        dataType : "json",
+                        success : function(data) {
+                            console.log("loading success");
+                            console.log(data);
+                            for (step = 1; step < 16; step++) {
+                                singer_arr[step-1] = data[step-1].singer;
+                                document.getElementById('pl1_music'+step).style.backgroundImage = "url('" + data[step-1].img_url + "')";
+                                document.getElementById('pl1_music'+step).style.backgroundSize = "contain";
+                                // document.getElementById('pl1_music'+step).innerHTML=data[step-1].id;
+                                // document.getElementById('pl1_music'+step).style.backgroundImage = 'url('https://usercontent.jamendo.com/?type=album&id=468778&width=300&trackid=1914663')";
+                                // console.log(data[step-1].id);
+                                // console.log(data[step-1].img_url);
+                                // console.log(data[step-1].img_url);
+                            }
+                        },
+                        error : function() {
+                            //alert('음악 재생 에러');
+                        }
+                });
+            });
+
+            // 2. 오늘의 인기 음악
+            $(document).ready(function(){
+                    $.ajax({
+                        url : "http://localhost:8080/recommend/today",
+                        data : 'get',
+                        contentType:"application/json;charset=UTF-8",
+                        dataType : "json",
+                        success : function(data) {
+                            console.log("today");
+                            console.log(data);
+                            singerlist = data.singer;
+                            for (step = 1; step < 16; step++) {
+                                // document.getElementById('pl2_music'+step).innerHTML=data[step-1].id;
+                                document.getElementById('pl2_music'+step).style.backgroundImage = "url('" + data[step-1].img_url + "')";
+                                document.getElementById('pl2_music'+step).style.backgroundSize = "contain";
+                                console.log(data[step-1].id);
+                                console.log(data[step-1].img_url);
+                            }
+                            // console.log("loading success");
+
+                        },
+                        error : function() {
+                            //alert('음악 재생 에러');
+                        }
+                });
+            });
+
+            // 3. 이번주 인기 음악
+            $(document).ready(function(){
+                    $.ajax({
+                        url : "http://localhost:8080/recommend/weekly",
+                        data : 'get',
+                        contentType:"application/json;charset=UTF-8",
+                        dataType : "json",
+                        success : function(data) {
+                            // console.log(data);
+                            for (step = 1; step < 16; step++) {
+                                document.getElementById('pl3_music'+step).innerHTML=data[step-1].id;
+                                document.getElementById('pl3_music'+step).style.backgroundImage = "url('" + data[step-1].img_url + "')";
+                                document.getElementById('pl3_music'+step).style.backgroundSize = "contain";
+                                // console.log(data[step-1].id);
+                                // console.log(data[step-1].img_url);
+                            }
+                            // console.log("loading success");
+
+                        },
+                        error : function() {
+                            //alert('음악 재생 에러');
+                        }
+                });
+            });
+
+            // 음원 데이터 뿌려주는 코드
+            // 음악 재생 코드는 js 코드 맨 위로 변경
+            $(document).ready(function(){
+                $('.playlist').click(function(data){
+                    // 음악 재생 코드는 맨위로
+                    // var audio1 = new Audio("./musicSample/music ("+ 1 +").mp3");
+                    // audio1.loop = false;
+                    // audio1.volume = 0.5;
+                    // audio1.play();
+                    //
+                    // $('#play_stop').click(function(){
+                    //     audio1.pause();
+                    //     audio1.currentTime = 0;
+                    // });
+                   document.getElementById('playtitle').innerHTML = document.getElementById(event.srcElement.id).innerHTML;
+                   document.getElementById('playsinger').innerHTML = singer_arr[document.getElementById(event.srcElement.id).innerHTML];
+                   document.getElementById('play_cover').style.backgroundImage = document.getElementById(event.srcElement.id).style.backgroundImage;
+               });
+           });
+
+        });
+
+        </script>
+        <div style="min-width: max-content; align-items:center;" >
+            <div id="face" onclick="location.href='face.html'"><h1>오늘의 기분을 알아볼게요</h1></div>
+            <div class="category"><h1>Mood Playlist</h1></div>
+            <hr class="line">
+            <div id="slider">
+
+                <input type="radio" name="slider" id="slide1" checked>
+                <input type="radio" name="slider" id="slide2">
+                <input type="radio" name="slider" id="slide3">
+
+                <div id="slides">
+                    <div id="overflow">
+                        <div class="inner">
+
+                            <div class="slide slide_1">
+                                <div class="slide-content">
+                                    <ul>
+                                        <li class="playlist" onclick="test(this.id)" id="pl1_music1" >1</li>
+                                        <li class="playlist" onclick="test(this.id)" id="pl1_music2">2</li>
+                                        <li class="playlist" onclick="test(this.id)" id="pl1_music3">3</li>
+                                        <li class="playlist" onclick="test(this.id)" id="pl1_music4">4</li>
+                                        <li class="playlist" onclick="test(this.id)" id="pl1_music5">5</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="slide slide_2">
+                                <div class="slide-content">
+                                    <ul>
+                                        <li class="playlist" onclick="test(this.id)" id="pl1_music6">6</li>
+                                        <li class="playlist" onclick="test(this.id)" id="pl1_music7">7</li>
+                                        <li class="playlist" onclick="test(this.id)" id="pl1_music8">8</li>
+                                        <li class="playlist" onclick="test(this.id)" id="pl1_music9">9</li>
+                                        <li class="playlist" onclick="test(this.id)" id="pl1_music10">10</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="slide slide_3">
+                                <div class="slide-content">
+                                    <ul>
+                                        <li class="playlist" onclick="test(this.id)" id="pl1_music11" >6</li>
+                                        <li class="playlist" onclick="test(this.id)" id="pl1_music12">7</li>
+                                        <li class="playlist" onclick="test(this.id)" id="pl1_music13">8</li>
+                                        <li class="playlist" onclick="test(this.id)" id="pl1_music14">9</li>
+                                        <li class="playlist" onclick="test(this.id)" id="pl1_music15">10</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div id="controls">
+                    <label for="slide1"></label>
+                    <label for="slide2"></label>
+                    <label for="slide3"></label>
+                </div>
+                <div id="bullets">
+                    <label for="label1"></label>
+                    <label for="label2"></label>
+                    <label for="label3"></label>
+                </div>
+
+            </div>
+        </div>
+
+        <br>
+
+
+
+        
+        <div class="category"><h1>Top 100 Daily</h1></div>
+        <hr class="line">
+                    <div id="second_slider">
+
+                <input type="radio" name="second_slider" id="second_slide1" checked>
+                <input type="radio" name="second_slider" id="second_slide2">
+                <input type="radio" name="second_slider" id="second_slide3">
+
+                <div id="second_slides">
+                    <div id="overflow">
+                        <div class="inner">
+
+                            <div class="second_slide second_slide_1">
+                                <div class="second_slide-content">
+                                    <ul>
+                                        <li class="playlist" onclick="test(this.id)" id="pl2_music1" >1</li>
+                                        <li class="playlist" onclick="test(this.id)" id="pl2_music2">2</li>
+                                        <li class="playlist" onclick="test(this.id)" id="pl2_music3">3</li>
+                                        <li class="playlist" onclick="test(this.id)" id="pl2_music4">4</li>
+                                        <li class="playlist" onclick="test(this.id)" id="pl2_music5">5</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="second_slide second_slide_2">
+                                <div class="second_slide-content">
+                                    <ul>
+                                        <li class="playlist" onclick="test(this.id)" id="pl2_music6">6</li>
+                                        <li class="playlist" onclick="test(this.id)" id="pl2_music7">7</li>
+                                        <li class="playlist" onclick="test(this.id)" id="pl2_music8">8</li>
+                                        <li class="playlist" onclick="test(this.id)" id="pl2_music9">9</li>
+                                        <li class="playlist" onclick="test(this.id)" id="pl2_music10">10</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="second_slide second_slide_3">
+                                <div class="second_slide-content">
+                                    <ul>
+                                        <li class="playlist" onclick="test(this.id)" id="pl2_music11" >6</li>
+                                        <li class="playlist" onclick="test(this.id)" id="pl2_music12">7</li>
+                                        <li class="playlist" onclick="test(this.id)" id="pl2_music13">8</li>
+                                        <li class="playlist" onclick="test(this.id)" id="pl2_music14">9</li>
+                                        <li class="playlist" onclick="test(this.id)" id="pl2_music15">10</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div id="controls">
+                    <label for="second_slide1"></label>
+                    <label for="second_slide2"></label>
+                    <label for="second_slide3"></label>
+                </div>
+                <div id="bullets">
+                    <label for="label1"></label>
+                    <label for="label2"></label>
+                    <label for="label3"></label>
+                </div>
+
+            </div>
+
+
+
+        <br>
+
+        <div class="category"><h1>Top 100 Weekly</h1></div>
+          <hr class="line">
+          <div id="third_slider">
+
+            <input type="radio" name="third_slider" id="third_slide1" checked>
+            <input type="radio" name="third_slider" id="third_slide2">
+            <input type="radio" name="third_slider" id="third_slide3">
+
+            <div id="third_slides">
+                <div id="overflow">
+                    <div class="inner">
+
+                        <div class="third_slide third_slide_1">
+                            <div class="third_slide-content">
+                                <ul>
+                                    <li class="playlist" onclick="test(this.id)" id="pl3_music1" >1</li>
+                                    <li class="playlist" onclick="test(this.id)" id="pl3_music2">2</li>
+                                    <li class="playlist" onclick="test(this.id)" id="pl3_music3">3</li>
+                                    <li class="playlist" onclick="test(this.id)" id="pl3_music4">4</li>
+                                    <li class="playlist" onclick="test(this.id)" id="pl3_music5">5</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="third_slide third_slide_2">
+                            <div class="third_slide-content">
+                                <ul>
+                                    <li class="playlist" onclick="test(this.id)" id="pl3_music6"></li>
+                                    <li class="playlist" onclick="test(this.id)" id="pl3_music7"></li>
+                                    <li class="playlist" onclick="test(this.id)" id="pl3_music8"></li>
+                                    <li class="playlist" onclick="test(this.id)" id="pl3_music9"></li>
+                                    <li class="playlist" onclick="test(this.id)" id="pl3_music10"></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="third_slide third_slide_3">
+                            <div class="third_slide-content">
+                                <ul>
+                                    <li class="playlist" onclick="test(this.id)" id="pl3_music11" >6</li>
+                                    <li class="playlist" onclick="test(this.id)" id="pl3_music12">7</li>
+                                    <li class="playlist" onclick="test(this.id)" id="pl3_music13">8</li>
+                                    <li class="playlist" onclick="test(this.id)" id="pl3_music14">9</li>
+                                    <li class="playlist" onclick="test(this.id)" id="pl3_music15">10</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="controls">
+                <label for="third_slide1"></label>
+                <label for="third_slide2"></label>
+                <label for="third_slide3"></label>
+            </div>
+            <div id="bullets">
+                <label for="label1"></label>
+                <label for="label2"></label>
+                <label for="label3"></label>
+            </div>
+
+        </div>
+
+
+        
+        <br>
+        <div id="sidebar">
+            <div class="musicnow">
+                <div class="player"><div class="cover" id="playcover"></div> <h1 id="playtitle">노래명</h1> <h1 id="playsinger">가수명</h1> <div class="like"></div><div>이전</div><button id="play_stop" >멈춤</button><div>다음</div></div>
+            </div>
+        </div>
+    </main>
+    <footer id="footer"></footer>
+</article>
+</body>
+</html>

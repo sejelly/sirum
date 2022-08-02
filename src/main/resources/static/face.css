@@ -1,0 +1,48 @@
+a {
+  cursor: pointer;
+}
+
+.camera {
+  display: block;
+  margin: auto;
+  justify-content: center;
+  height: 500px;
+  width: 50%;
+  border-width: 2px;
+  border-style: solid;
+  border-color: black;
+}
+
+.result {
+  display: block;
+  margin: auto;
+  justify-content: left;
+  float: left;
+  margin-left: 50px;
+  height: 500px;
+  width: 300px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: black;
+  background-color: rgb(44, 44, 44);
+  color: white;
+  font-size: 16px;
+}
+
+.again {
+  display: flex;
+  height: 50px;
+  width: 100px;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 10px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  cursor: pointer;
+}
+
+#music1 {
+  z-index: 15;
+}
