@@ -41,7 +41,22 @@
 
         <!--연습한 코드-->
         <script type="text/javascript">
-
+            function load() {
+                console.log("OK")
+                $.ajax({
+                    url: "http://localhost:8080/user/1",
+                    data: 'get',
+                    contentType: "application/json;charset=UTF-8",
+                    dataType: "json",
+                    success: function (data) {
+                        console.log("loading success");
+                        userdata = data;
+                    },
+                    error: function () {
+                        //alert('유저 정보 로딩 에러');
+                    }
+                });
+            }
             // 음악 재생 코드 변경!
             function test(e) {
                 console.log(e);
@@ -82,19 +97,22 @@
 
                 var userdata;
                 //유저 id로 계정 정보 받아오기 (로그인 해서 post로 데이터 보낸 후에 실행하기)
+            $(document).ready(function() {
+
                 $.ajax({
-                    url : "/users/{user-id}",
-                    data : 'get',
-                    contentType:"application/json;charset=UTF-8",
-                    dataType : "json",
-                    success : function(data) {
+                    url: "/user/1",
+                    data: 'get',
+                    contentType: "application/json;charset=UTF-8",
+                    dataType: "json",
+                    success: function (data) {
                         console.log("loading success");
                         userdata = data;
                     },
-                    error : function() {
+                    error: function () {
                         //alert('유저 정보 로딩 에러');
                     }
                 });
+            })
 
 
         //처음 페이지 로딩시 받아올 데이터
@@ -218,7 +236,7 @@
                             <div class="slide slide_1">
                                 <div class="slide-content">
                                     <ul>
-                                        <li class="playlist" onclick="test(this.id)" id="pl1_music1" >1</li>
+                                        <li class="playlist" onclick="load()" id="pl1_music1" >1</li>
                                         <li class="playlist" onclick="test(this.id)" id="pl1_music2">2</li>
                                         <li class="playlist" onclick="test(this.id)" id="pl1_music3">3</li>
                                         <li class="playlist" onclick="test(this.id)" id="pl1_music4">4</li>

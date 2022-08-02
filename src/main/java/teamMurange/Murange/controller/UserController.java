@@ -28,13 +28,10 @@ public class UserController {
         return new ResponseEntity(HttpStatus.OK);
         // ! spring security, google oauth2 연결 후 변경사항 체크
     }
-
-    @ApiOperation(value = "유저 조회", notes = "유저 계정 조회하기")
     @PostMapping("/user/{user-id}")
     @ResponseBody
     public Map<String,Object> getUser(@PathVariable(value = "user-id") Long userId) throws Exception {
         User user = userService.getUser(userId);
-
         Map<String,Object> returnMap = new HashMap<>();
         returnMap.put("id", user.getId());
         returnMap.put("name", user.getName());
@@ -42,6 +39,7 @@ public class UserController {
         returnMap.put("img_path", user.getImg_url());
         return returnMap;
     }
+
 
 
 }

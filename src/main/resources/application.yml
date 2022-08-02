@@ -2,6 +2,8 @@ server:
   address: localhost
   port: 8080
 spring:
+  mustache:
+    suffix: .mustache
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -10,6 +12,8 @@ spring:
     password: kk891006!!
     url: jdbc:mysql://localhost:3306/murangtest?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
     username: sejelly
+  profiles:
+    include: oauth
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
