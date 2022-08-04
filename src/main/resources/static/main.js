@@ -58,7 +58,7 @@ function App() {
   const [ data, setData ] = useState(null);
   const google = <FontAwesomeIcon icon={faGoogle} size="10x"/>;
   const oAuthURL =
-  `https://accounts.google.com/o/oauth2/v2/auth?client_id=483993169934-7u13102b2s7g4mjemkp6htotpeqdkmes.apps.googleusercontent.com&response_type=token&redirect_uri=http://localhost:5500&scope=https://www.googleapis.com/auth/userinfo.email`
+  `http://localhost:8080/`
   const oAuthHandler = () => {
     window.location.assign(oAuthURL);
   }

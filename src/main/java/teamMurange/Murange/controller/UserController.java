@@ -11,10 +11,13 @@ import teamMurange.Murange.domain.User;
 import teamMurange.Murange.dto.UserRequestDto;
 import teamMurange.Murange.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
 @Api(tags = { "User Controller"})
+@CrossOrigin("*")
 @RestController
 @RequiredArgsConstructor
 public class UserController {
@@ -28,9 +31,10 @@ public class UserController {
         return new ResponseEntity(HttpStatus.OK);
         // ! spring security, google oauth2 연결 후 변경사항 체크
     }
-    @PostMapping("/user/{user-id}")
+    @RequestMapping(value="/user/{user-id}",method=RequestMethod.GET)
     @ResponseBody
     public Map<String,Object> getUser(@PathVariable(value = "user-id") Long userId) throws Exception {
+        System.out.println("Called");
         User user = userService.getUser(userId);
         Map<String,Object> returnMap = new HashMap<>();
         returnMap.put("id", user.getId());

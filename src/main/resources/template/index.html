@@ -27,7 +27,10 @@
                 <a class="active" href="#">
                     MurangE
                 </a>
-                <a id="login" onclick="location.href='index.html'"><div class="g-signin2" data-onsuccess="onSignIn"></div></a>
+                <a class="active" href="#" id ="username">
+
+                </a>
+                <a id="login" onclick="location.href='http://localhost:8080/'"><div class="g-signin2" data-onsuccess="onSignIn"></div></a>
 
             </div>
         </nav>
@@ -97,16 +100,17 @@
 
                 var userdata;
                 //유저 id로 계정 정보 받아오기 (로그인 해서 post로 데이터 보낸 후에 실행하기)
-            $(document).ready(function() {
-
+            $(document).ready(function load() {
                 $.ajax({
-                    url: "/user/1",
+                    url: "http://localhost:8080/user/1",
                     data: 'get',
                     contentType: "application/json;charset=UTF-8",
                     dataType: "json",
                     success: function (data) {
                         console.log("loading success");
                         userdata = data;
+                        const usernme = document.getElementById("username");
+                        usernme.innerHTML += userdata.name;
                     },
                     error: function () {
                         //alert('유저 정보 로딩 에러');

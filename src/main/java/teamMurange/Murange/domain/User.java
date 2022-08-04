@@ -3,6 +3,8 @@ package teamMurange.Murange.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ public class User {
 
     @OneToOne
     @JoinColumn(name = "badge_id")
+    @NotFound(action = NotFoundAction.IGNORE)
     private Badge badge;
 
     @OneToMany(mappedBy = "user")
