@@ -377,7 +377,7 @@ button {
 #slide2:checked ~ #controls label:nth-child(3),
 #slide3:checked ~ #controls label:nth-child(1)
 {
-  background: url(../image/next_pointer.png) center no-repeat;
+  background: url(image/next_pointer.png) center no-repeat;
   background-size: contain;
   float: right;
   /*margin: 0 -50px 0 0;*/
@@ -387,7 +387,7 @@ button {
 #slide2:checked ~ #controls label:nth-child(1),
 #slide3:checked ~ #controls label:nth-child(2)
 {
-  background: url(../image/prev_pointer.png) center no-repeat;
+  background: url(image/prev_pointer.png) center no-repeat;
   background-size: contain;
   float: left;
   /*margin: 0 0 0 -50px;*/
@@ -498,7 +498,7 @@ button {
 #second_slide2:checked ~ #controls label:nth-child(3),
 #second_slide3:checked ~ #controls label:nth-child(1)
 {
-  background: url(../image/next_pointer.png) center no-repeat;
+  background: url(image/next_pointer.png) center no-repeat;
   background-size: contain;
   float: right;
   /*margin: 0 -50px 0 0;*/
@@ -508,7 +508,7 @@ button {
 #second_slide2:checked ~ #controls label:nth-child(1),
 #second_slide3:checked ~ #controls label:nth-child(2)
 {
-  background: url(../image/prev_pointer.png) center no-repeat;
+  background: url(image/prev_pointer.png) center no-repeat;
   background-size: contain;
   float: left;
   /*margin: 0 0 0 -50px;*/
@@ -597,7 +597,7 @@ button {
 #third_slide2:checked ~ #controls label:nth-child(3),
 #third_slide3:checked ~ #controls label:nth-child(1)
 {
-  background: url(../image/next_pointer.png) center no-repeat;
+  background: url(image/next_pointer.png) center no-repeat;
   background-size: contain;
   float: right;
   /*margin: 0 -50px 0 0;*/
@@ -607,7 +607,7 @@ button {
 #third_slide2:checked ~ #controls label:nth-child(1),
 #third_slide3:checked ~ #controls label:nth-child(2)
 {
-  background: url(../image/prev_pointer.png) center no-repeat;
+  background: url(image/prev_pointer.png) center no-repeat;
   background-size: contain;
   float: left;
   /*margin: 0 0 0 -50px;*/

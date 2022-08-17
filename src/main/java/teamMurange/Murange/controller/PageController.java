@@ -34,6 +34,24 @@ public class PageController {
 //        model.addAttribute("googleName",userRepository.findById(id).get());
 //        return "index";
 //    }
+    @GetMapping("/idx")
+    public String idx(Model model) {
+        System.out.println("OK");
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if (user != null) {
+            model.addAttribute("googleName", user.getName());
+        }
+        return "idx";
 
+    }
+    @GetMapping("/face")
+    public String face(Model model) {
+        System.out.println("OK");
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if (user != null) {
+            model.addAttribute("googleName", user.getName());
+        }
+        return "face";
+    }
 }
 
